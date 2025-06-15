@@ -5,19 +5,20 @@ Due to poor enum support in Go, a pattern has emerged where developers:
 - create types with primitive [underlying types](https://go.dev/ref/spec#Underlying_types) (e.g `type Status string`,
   `type LogLevel int`)
 - define set of values, e.g `const StatusDraft = Status("open")`
-- implement `IsValid() bool / Validate() error` functions to check if given value (usually for user input) is valid.
+- implement `IsValid() bool / Validate() error` for validation (usually against user input).
 
-The annoying part is maintaining the list of values while keeping validation functions in sync.  
+The annoying part is maintaining the list of values while keeping validation logic in sync.  
 Small thing, but the lack of single source of truth makes us feel dumb, detached, and sad.
 
 ## Features
 
+- **Inline definitions**: register enum values as you declare them
 - **Zero-maintenance**: automatic `IsValid() bool` and `Validate() error` functions without code generation
-- **No interference**: no wrappers, no new types, definitions keep their original type
+- **No interference**: no wrappers, no new types, definitions keep their original type and value
 - **Scoped**: definitions are scoped to their type, e.g `"active"` can be valid value for `type UserStatus string`, but
   not
   necessarily for `type OrderStatus string`
-- **End-user friendly error message**: validation error message is human-readable and helpful
+- **User friendly error message**: validation error message is human-readable and helpful
 - **Lightweight**: no dependencies, auditable (less than 200 lines of code)
 
 ## Installation
@@ -27,6 +28,10 @@ go get github.com/0xcafe-io/enum
 ```
 
 ## Usage
+
+use `enum.Def` to register enum values while declaring it, then check it with `IsValid` or `Validate` in any part of
+your
+code.
 
 ```go
 package main
@@ -76,6 +81,8 @@ func main() {
 	// [draft open merged closed]
 }
 ```
+
+---
 
 Integer types are also supported (`int`, `int8/byte`, `int16`, `int32/rune`, `int64`, and their unsigned siblings):
 
