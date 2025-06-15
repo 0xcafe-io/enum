@@ -28,11 +28,6 @@ go get github.com/0xcafe-io/enum
 ```
 
 ## Usage
-
-use `enum.Def` to register enum values while declaring it, then check it with `IsValid` or `Validate` in any part of
-your
-code.
-
 ```go
 package main
 
