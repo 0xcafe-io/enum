@@ -24,21 +24,22 @@ var (
 )
 
 func Example_string() {
-	var input Status = "postponed"
-	if !enum.IsValid(input) {
-		fmt.Println("bad input")
+	userInput := "postponed"
+	status := Status(userInput)
+	if !enum.IsValid(status) {
+		fmt.Println("bad status")
 	}
 
-	if err := enum.Validate(input); err != nil {
+	if err := enum.Validate(status); err != nil {
 		fmt.Println(err)
 	}
 
-	input = "merged"
-	if enum.IsValid(input) {
-		fmt.Println("good input")
+	status = "merged"
+	if enum.IsValid(status) {
+		fmt.Println("good status")
 	}
 
-	if input == StatusMerged {
+	if status == StatusMerged {
 		fmt.Println("nice job")
 	}
 
@@ -46,9 +47,9 @@ func Example_string() {
 	fmt.Println(statuses)
 
 	// Output:
-	// bad input
+	// bad status
 	// "postponed" is not a valid choice, allowed values are: "draft", "open", "merged", "closed"
-	// good input
+	// good status
 	// nice job
 	// [draft open merged closed]
 }
