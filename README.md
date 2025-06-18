@@ -14,7 +14,7 @@ Small thing, but the lack of single source of truth makes us feel dumb, detached
 
 - **Inline definitions**: register enum values as you declare them
 - **Zero-maintenance**: automatic `IsValid() bool` and `Validate() error` functions without code generation
-- **No interference**: no wrappers, no new types, definitions keep their original type and value
+- **No interference**: no wrappers or no new type - definitions keep their original type and value
 - **Scoped**: definitions are scoped to their type, e.g `"active"` can be valid value for `type UserStatus string`, but
   not
   necessarily for `type OrderStatus string`
@@ -50,6 +50,7 @@ var (
 func main() {
 	userInput := "postponed"
 	status := Status(userInput)
+
 	if !enum.IsValid(status) {
 		fmt.Println("bad status")
 	}

@@ -26,6 +26,7 @@ var (
 func Example_string() {
 	userInput := "postponed"
 	status := Status(userInput)
+
 	if !enum.IsValid(status) {
 		fmt.Println("bad status")
 	}
@@ -56,6 +57,7 @@ func Example_string() {
 
 func Example_int() {
 	var access Access
+
 	if !enum.IsValid(access) {
 		fmt.Println("access denied")
 	}
