@@ -74,6 +74,7 @@ func IsValid[T enumType](v T) bool {
 // Validate checks whether v is defined for enum T.
 // If not, returns an error, otherwise returns nil.
 func Validate[T enumType](v T) error {
+	// TODO cache error msg to avoid constructing it every time.
 	typ := idOf[T]()
 	mu.RLock()
 	defer mu.RUnlock()
@@ -120,4 +121,17 @@ func errMsg[T enumType](fmtVerb string, invalidVal T, vals []T) string {
 		sb.WriteString(fmt.Sprintf(tail, v))
 	}
 	return sb.String()
+}
+
+// Clear removes all definitions for enum T.
+func Clear[T enumType]() {
+	mu.Lock()
+	defer mu.Unlock()
+	typID := idOf[T]()
+	delete(groups, typID)
+	for k := range defs {
+		if v, ok := k.(typeValue[T]); ok && v.typ == typID {
+			delete(defs, k)
+		}
+	}
 }
